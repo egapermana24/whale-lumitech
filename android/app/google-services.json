@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "26985113436",
+    "project_id": "whale-lumitech1",
+    "storage_bucket": "whale-lumitech1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26985113436:android:96e9d051de1726cd348399",
+        "android_client_info": {
+          "package_name": "com.example.simplynews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26985113436-4srig0n0mf96c9ga3l32n2g06n72a5um.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO61v4Hgr1M06mAJocVNalq5y-NXnbdDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26985113436-4srig0n0mf96c9ga3l32n2g06n72a5um.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "26985113436-l93am8si09ffbm3i4tene60klt6k4t6p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newsAppUi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
