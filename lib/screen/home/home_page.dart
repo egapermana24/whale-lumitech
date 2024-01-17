@@ -1,32 +1,43 @@
+// import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:simplynews/screen/details/details_page.dart';
+// import 'package:get/get.dart';
+// import 'package:simplynews/screen/details/details_page.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
-import 'package:simplynews/screen/home/widgets/card_view_widget.dart';
+import 'package:simplynews/screen/navbar/navbar.dart';
+import 'package:simplynews/screen/tracking/detail_trip.dart';
+// import 'package:simplynews/screen/home/widgets/card_view_widget.dart';
 import 'package:simplynews/screen/tracking/tracking_page.dart';
 import 'package:simplynews/widgets/spacer/kustom_spasi.dart';
 // google sign in
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../aturan/pengaturan.dart';
-import '../../model/news_model.dart';
-import '../../resource/resource.gen.dart';
-import 'widgets/grid_view_widget.dart'; // Ganti import CardViewWidget menjadi GridViewWidget
+// import '../../model/news_model.dart';
+// import '../../resource/resource.gen.dart';
+// import 'widgets/grid_view_widget.dart'; // Ganti import CardViewWidget menjadi GridViewWidget
 import 'widgets/home_header_widget.dart';
-import 'widgets/horizontal_category_list.dart';
-import 'widgets/round_icon_button_widget.dart';
-import 'widgets/top_slider_widget.dart';
+// import 'widgets/horizontal_category_list.dart';
+// import 'widgets/round_icon_button_widget.dart';
+// import 'widgets/top_slider_widget.dart';
 // resource
-import '../../resource/resource.gen.dart';
+// import '../../resource/resource.gen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key}) {
-    googleSignInAccount = GoogleSignIn().currentUser;
-    userName = googleSignInAccount?.displayName ?? 'Guest';
+    // googleSignInAccount = GoogleSignIn().currentUser;
+    // userName = googleSignInAccount?.displayName ?? 'Guest';
+    // final User? user;
+    // ambil nama dan foto dari akun google
+    // final User? user = FirebaseAuth.instance.currentUser;
+    // userName = user?.displayName ?? 'Guest';
+    // userFoto = user?.photoURL ?? '';
   }
 
-  GoogleSignInAccount? googleSignInAccount;
-  String userName = 'Guest';
+  // GoogleSignInAccount? googleSignInAccount;
+  // String? userName;
+  // String? userFoto;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -36,11 +47,11 @@ class HomePage extends StatelessWidget {
           body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               if (constraints.maxWidth <= 600) {
-                return const ContentNewsList();
+                return HomePageState.initialize();
               } else if (constraints.maxWidth <= 1200) {
-                return const ContentNewsGrid(gridCount: 4, fontSize: 11);
+                return HomePageState.initialize();
               } else {
-                return const ContentNewsGrid(gridCount: 5, fontSize: 14);
+                return HomePageState.initialize();
               }
             },
           ),
@@ -50,8 +61,19 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ContentNewsList extends StatelessWidget {
-  const ContentNewsList({Key? key}) : super(key: key);
+class HomePageState extends StatelessWidget {
+  HomePageState({super.key});
+  late User? user;
+  // late String userName;
+  // late String userFoto;
+
+  HomePageState.initialize({super.key}) {
+    initializeUser();
+  }
+
+  void initializeUser() {
+    user = FirebaseAuth.instance.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +82,48 @@ class ContentNewsList extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(24.0, 45, 24, 0),
         child: Column(
           children: [
-            HomeHeaderWidget(),
+            HomeHeaderWidget(
+              user: user,
+            ),
             const CustomHeightSpacer(
               size: 0.04,
             ),
             // letakkan tulisan ini "Yeay, You have reduce carbon emissions up to 12 kg CO2/km that is equal to planting 12 Trees." di tengah
-            Text(
-              'Yeay, You have reduced carbon emissions up to 12 kg CO2/km, equal to planting 12 Trees.',
+            RichText(
               textAlign: TextAlign.center,
-              style: SafeGoogleFont(
-                'Mulish',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                height: 1.2,
-                color: const Color(0xff1a434e),
+              text: TextSpan(
+                style: SafeGoogleFont(
+                  'Mulish',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  height: 1.2,
+                  color: const Color(0xff1a434e),
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Yeay, You have reduced carbon emissions up to ',
+                  ),
+                  TextSpan(
+                    text: '12 kg CO2/km',
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' equal to planting ',
+                  ),
+                  TextSpan(
+                    text: '12 Trees',
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '.',
+                  ),
+                ],
               ),
             ),
             const CustomHeightSpacer(
@@ -86,83 +136,153 @@ class ContentNewsList extends StatelessWidget {
                 // buatkan kotak kiri
                 Expanded(
                   child: Container(
-                    height: 100,
+                    height:
+                        75, // Ganti 0.3 sesuai dengan persentase yang diinginkan
                     decoration: BoxDecoration(
-                      color: const Color(0xff1a434e),
-                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/tree_medium.png'),
+                        // fit: BoxFit.cover,
+                        alignment: Alignment
+                            .bottomRight, // Gambar akan berada di pojok kanan bawah
+                      ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(
+                          5.0), // Sesuaikan padding yang diinginkan
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Hello,',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Mulish',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              height: 1.2,
-                              color: const Color(0xffffffff),
-                            ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/tree_mini.png',
+                                width: 15,
+                                height: 15,
+                              ),
+                              Text(
+                                'Total Carbon Emission',
+                                textAlign: TextAlign.center,
+                                style: SafeGoogleFont(
+                                  'Mulish',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  color: const Color(0xffffffff),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Guest',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Mulish',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              height: 1.2,
-                              color: const Color(0xffffffff),
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                '90',
+                                textAlign: TextAlign.center,
+                                style: SafeGoogleFont(
+                                  'Mulish',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  color: const Color(0xffffffff),
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                'kg CO2/ km',
+                                textAlign: TextAlign.center,
+                                style: SafeGoogleFont(
+                                  'Mulish',
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  color: const Color(0xffffffff),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
+
                 const CustomWidthSpacer(
                   size: 0.02,
                 ),
                 // buatkan kotak kanan
                 Expanded(
                   child: Container(
-                    height: 100,
+                    height: 75,
                     decoration: BoxDecoration(
-                      color: const Color(0xff1a434e),
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5), // Warna bayangan
+                          spreadRadius: 2, // Seberapa banyak bayangan tersebar
+                          blurRadius: 2, // Seberapa buram bayangan
+                          offset: Offset(0, 3), // Posisi bayangan (x, y)
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/car_medium.png'),
+                        // fit: BoxFit.cover,
+                        alignment: Alignment
+                            .bottomRight, // Gambar akan berada di pojok kanan bawah
+                      ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(5.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Total News',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Mulish',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              height: 1.2,
-                              color: const Color(0xffffffff),
-                            ),
+                          Row(
+                            children: [
+                              // tambahkan gambar
+                              Image.asset(
+                                'assets/images/car_mini.png',
+                                width: 15,
+                                height: 15,
+                              ),
+                              Text(
+                                'Most Use Transportation',
+                                textAlign: TextAlign.center,
+                                style: SafeGoogleFont(
+                                  'Mulish',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  color: const Color(0xffffffff),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '100',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Mulish',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              height: 1.2,
-                              color: const Color(0xffffffff),
-                            ),
-                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Car',
+                                textAlign: TextAlign.center,
+                                style: SafeGoogleFont(
+                                  'Mulish',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  color: const Color(0xffffffff),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -171,11 +291,11 @@ class ContentNewsList extends StatelessWidget {
               ],
             ),
             const CustomHeightSpacer(
-              size: 0.02,
+              size: 0.03,
             ),
             // buatkan tombol bertuliskan "Start Tracking" dengan dekorasi yaitu tombol berwarna putih dengan tulisan berwarna primaryColor lalu tombol memiliki border berwarna primary color dan tombol rounded
             Container(
-              height: 50,
+              height: 40,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -183,17 +303,30 @@ class ContentNewsList extends StatelessWidget {
                 border: Border.all(
                   color: AppColors.primaryColor,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2), // Warna bayangan
+                    spreadRadius: 7, // Seberapa banyak bayangan tersebar
+                    blurRadius: 8, // Seberapa buram bayangan
+                    offset: Offset(0, 0), // Posisi bayangan (x, y)
+                  ),
+                ],
               ),
               child: TextButton(
                 onPressed: () {
-                  Get.to(TrackingPage());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TrackingPage(),
+                    ),
+                  );
                 },
                 child: Text(
                   'Start Tracking',
                   textAlign: TextAlign.center,
                   style: SafeGoogleFont(
                     'Mulish',
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                     height: 1.2,
                     color: AppColors.primaryColor,
@@ -207,27 +340,53 @@ class ContentNewsList extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Achievement',
-                  textAlign: TextAlign.center,
-                  style: SafeGoogleFont(
-                    'Mulish',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    height: 1.2,
-                    color: const Color(0xff1a434e),
-                  ),
+                Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Align text to the left
+                  children: [
+                    Text(
+                      'Achievement',
+                      style: SafeGoogleFont(
+                        'Mulish',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                        color: const Color(0xff1a434e),
+                      ),
+                    ),
+                    Text(
+                      'Check Your Ranking Achievement',
+                      style: SafeGoogleFont(
+                        'Mulish',
+                        fontSize: 10,
+                        color:
+                            const Color(0xff1a434e), // Adjust color as needed
+                      ),
+                    ),
+                  ],
                 ),
                 // buatkan tulisan See All yang bisa di klik
-                Text(
-                  'View All',
-                  textAlign: TextAlign.center,
-                  style: SafeGoogleFont(
-                    'Mulish',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    height: 1.2,
-                    color: const Color(0xff1a434e),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainTabBar(
+                          initialPageIndex: 2,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'View All',
+                    textAlign: TextAlign.center,
+                    style: SafeGoogleFont(
+                      'Mulish',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
               ],
@@ -236,125 +395,137 @@ class ContentNewsList extends StatelessWidget {
               size: 0.02,
             ),
             // Achievement
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                color: const Color(0xff1a434e),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Stack(
+              children: [
+                // Container untuk background dengan bayangan
+                Container(
+                  height: 125,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 2,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Image on the left
-                        Image.asset(
-                          'assets/images/icAchievement.png',
-                          width: 100,
-                          height: 100,
-                        ),
-                        // const CustomWidthSpacer(size: 0.02),
-                        // Column for text content on the right
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Top text section
+                            // Image on the left
+                            Image.asset(
+                              'assets/images/icAchievement.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            const CustomWidthSpacer(size: 0.04),
+                            // Column for text content on the right
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Keep it UP!',
-                                  style: SafeGoogleFont(
-                                    'Mulish',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.2,
-                                    color: const Color(0xffffffff),
-                                  ),
-                                ),
-                                Text(
-                                  'Reach your Achievement',
-                                  style: SafeGoogleFont(
-                                    'Mulish',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.2,
-                                    color: const Color(0xffffffff),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Spacer between text sections
-                            const SizedBox(
-                                height: 10), // Adjust spacing as needed
-                            // Bottom text section (now below Reach Your Achievement)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                                // Top text section
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Total Task',
+                                      'Keep it up!',
                                       style: SafeGoogleFont(
                                         'Mulish',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
                                         height: 1.2,
                                         color: const Color(0xffffffff),
                                       ),
                                     ),
-                                    const CustomHeightSpacer(size: 0.02),
                                     Text(
-                                      '72',
-                                      textAlign: TextAlign.center,
+                                      'Reach your Achievement',
                                       style: SafeGoogleFont(
                                         'Mulish',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
                                         height: 1.2,
                                         color: const Color(0xffffffff),
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                    width: 25), // Adjust spacing as needed
-                                // buat garis vertical diantara 2 column
-                                Container(
-                                  width: 1,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(width: 25),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                // Spacer between text sections
+                                const SizedBox(height: 10),
+                                // Bottom text section (now below Reach Your Achievement)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Task Completed',
-                                      style: SafeGoogleFont(
-                                        'Mulish',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.2,
-                                        color: const Color(0xffffffff),
-                                      ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Total Task',
+                                          style: SafeGoogleFont(
+                                            'Mulish',
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.2,
+                                            color: const Color(0xffffffff),
+                                          ),
+                                        ),
+                                        Text(
+                                          '72',
+                                          textAlign: TextAlign.center,
+                                          style: SafeGoogleFont(
+                                            'Mulish',
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w800,
+                                            height: 1.2,
+                                            color: const Color(0xffffffff),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const CustomHeightSpacer(size: 0.02),
-                                    Text(
-                                      '24',
-                                      textAlign: TextAlign.center,
-                                      style: SafeGoogleFont(
-                                        'Mulish',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.2,
-                                        color: const Color(0xffffffff),
-                                      ),
+                                    const SizedBox(width: 25),
+                                    // buat garis vertical diantara 2 column
+                                    Container(
+                                      width: 1,
+                                      height: 30,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(width: 25),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Task Completed',
+                                          style: SafeGoogleFont(
+                                            'Mulish',
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.2,
+                                            color: const Color(0xffffffff),
+                                          ),
+                                        ),
+                                        Text(
+                                          '24',
+                                          textAlign: TextAlign.center,
+                                          style: SafeGoogleFont(
+                                            'Mulish',
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w800,
+                                            height: 1.2,
+                                            color: const Color(0xffffffff),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -364,10 +535,19 @@ class ContentNewsList extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // buatkan row yang bawahnya berisi 2 kolom, kolom sebelah kiri bertuliskan "Total Task" dibawahnya 72 dan kolom sebelah kanannya bertuliskan "Task Completed" dibawahnya 24
-                  ],
+                  ),
                 ),
-              ),
+                // Positioned untuk menempatkan ikon di pojok kanan atas
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Image.asset(
+                    'assets/images/white_logo.png',
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+              ],
             ),
 
             const CustomHeightSpacer(
@@ -384,35 +564,43 @@ class ContentNewsList extends StatelessWidget {
                       'Latest Trip',
                       style: SafeGoogleFont(
                         'Mulish',
-                        fontSize: 20,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         height: 1.2,
                         color: const Color(0xff1a434e),
                       ),
                     ),
                     Text(
-                      'Cek Perjalanan Terakhirmu',
+                      'Check Your Recent Trips',
                       style: SafeGoogleFont(
                         'Mulish',
-                        fontSize: 14,
+                        fontSize: 10,
                         color:
                             const Color(0xff1a434e), // Adjust color as needed
                       ),
                     ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Handle the "View All" button click here
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainTabBar(
+                          initialPageIndex: 1,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(
                     'View All',
+                    textAlign: TextAlign.center,
                     style: SafeGoogleFont(
                       'Mulish',
-                      fontSize: 14,
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
-                      color: const Color(0xff1a434e),
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ),
@@ -421,316 +609,250 @@ class ContentNewsList extends StatelessWidget {
             const CustomHeightSpacer(
               size: 0.02,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white, // Adjust the background color if needed
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset:
-                        Offset(0, 3), // Adjust the shadow position as needed
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Image
-                  Container(
-                    // Apply the background color here
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200], // Adjust the color as needed
-                      borderRadius:
-                          BorderRadius.circular(10), // Match the image's radius
+            InkWell(
+              onTap: () {
+                // Navigasi ke halaman DetailTripPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
                     ),
-                    padding: const EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        'assets/images/bus.png',
-                        width: 50,
-                        height: 50,
+                  ],
+                ),
+                padding: const EdgeInsets.all(7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // Image
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  ),
-                  // Date, time, and address
-                  SizedBox(width: 10), // Adjust spacing as needed
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '20 Juli 2023 10:00 - 12:00 WIB', // Date and time combined
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/images/car.png',
+                          width: 25,
+                          height: 25,
                         ),
                       ),
-                      Text(
-                        'Jl. Sudirman No. 100, Jakarta', // Address below date and time
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
+                    ),
+                    // Date, time, and address
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Yesterday, 1 Jan 24 10:00',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  // Arrow icon
-                  Spacer(),
-                  const Icon(
-                    Icons.arrow_forward,
-                    color: const Color(0xff1a434e),
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white, // Adjust the background color if needed
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset:
-                        Offset(0, 3), // Adjust the shadow position as needed
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Image
-                  Container(
-                    // Apply the background color here
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200], // Adjust the color as needed
-                      borderRadius:
-                          BorderRadius.circular(10), // Match the image's radius
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        'assets/images/bus.png',
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                  ),
-                  // Date, time, and address
-                  SizedBox(width: 10), // Adjust spacing as needed
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '20 Juli 2023 10:00 - 12:00 WIB', // Date and time combined
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Jl. Bumi Foresta to KFC  Marg...',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Jl. Sudirman No. 100, Jakarta', // Address below date and time
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Arrow icon
-                  Spacer(),
-                  const Icon(
-                    Icons.arrow_forward,
-                    color: const Color(0xff1a434e),
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white, // Adjust the background color if needed
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset:
-                        Offset(0, 3), // Adjust the shadow position as needed
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Image
-                  Container(
-                    // Apply the background color here
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200], // Adjust the color as needed
-                      borderRadius:
-                          BorderRadius.circular(10), // Match the image's radius
+                      ],
                     ),
-                    padding: const EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        'assets/images/bus.png',
-                        width: 50,
-                        height: 50,
-                      ),
+                    // Arrow icon
+                    Spacer(),
+                    Image.asset(
+                      'assets/images/arrow_right.png',
+                      width: 15,
+                      height: 15,
                     ),
-                  ),
-                  // Date, time, and address
-                  SizedBox(width: 10), // Adjust spacing as needed
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '20 Juli 2023 10:00 - 12:00 WIB', // Date and time combined
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
-                        ),
-                      ),
-                      Text(
-                        'Jl. Sudirman No. 100, Jakarta', // Address below date and time
-                        style: SafeGoogleFont(
-                          'Mulish',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          height: 1.2,
-                          color: const Color(0xff1a434e),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Arrow icon
-                  Spacer(),
-                  const Icon(
-                    Icons.arrow_forward,
-                    color: const Color(0xff1a434e),
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ContentNewsGrid extends StatelessWidget {
-  final int gridCount;
-  final double fontSize;
-
-  const ContentNewsGrid(
-      {Key? key, required this.gridCount, required this.fontSize})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24.0, 45, 24, 0),
-        child: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Achievement',
-                    textAlign: TextAlign.center,
-                    style: SafeGoogleFont(
-                      'Mulish',
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      height: 1.2,
-                      color: const Color(0xff1a434e),
-                    ),
-                  ),
-                  // buatkan tulisan See All yang bisa di klik
-                  Text(
-                    'See All',
-                    textAlign: TextAlign.center,
-                    style: SafeGoogleFont(
-                      'Mulish',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      height: 1.2,
-                      color: const Color(0xff1a434e),
-                    ),
-                  ),
-                ],
-              ),
-              const CustomHeightSpacer(
-                size: 0.04,
-              ),
-              HomeHeaderWidget(),
-              const CustomHeightSpacer(
-                size: 0.02,
-              ),
-              HorizontalCategoryList(
-                items: [
-                  contentNewsList[0].category,
-                  contentNewsList[1].category,
-                  contentNewsList[2].category,
-                  contentNewsList[3].category,
-                  contentNewsList[4].category
-                ],
-              ),
-              const CustomHeightSpacer(
-                size: 0.04,
-              ),
-              Expanded(
-                child: GridViewWidget(
-                  gridCount: gridCount,
-                  fontSize: fontSize,
-                  onTap: (int index) {
-                    Get.to(DetailsPage(
-                      title: contentNewsList[index].title,
-                      author: contentNewsList[index].author,
-                      description: contentNewsList[index].description,
-                      datePublish: contentNewsList[index].datePublish,
-                      category: contentNewsList[index].category,
-                      imageAsset: contentNewsList[index].imageAsset,
-                    ));
-                  },
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Navigasi ke halaman DetailTripPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // Image
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/images/train.png',
+                          width: 25,
+                          height: 25,
+                        ),
+                      ),
+                    ),
+                    // Date, time, and address
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Yesterday, 1 Jan 23, 08.00',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Senayan to Statiun MRT Fatm...',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Arrow icon
+                    Spacer(),
+                    Image.asset(
+                      'assets/images/arrow_right.png',
+                      width: 15,
+                      height: 15,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Navigasi ke halaman DetailTripPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(7),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // Image
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/images/motor.png',
+                          width: 25,
+                          height: 25,
+                        ),
+                      ),
+                    ),
+                    // Date, time, and address
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '28 Dec 2023, 07.30',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Upn Veteran Jakarta to Pantai...',
+                          style: SafeGoogleFont(
+                            'Mulish',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                            color: const Color(0xff1a434e),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Arrow icon
+                    Spacer(),
+                    Image.asset(
+                      'assets/images/arrow_right.png',
+                      width: 15,
+                      height: 15,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+          ],
         ),
       ),
     );

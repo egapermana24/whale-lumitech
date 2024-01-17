@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:simplynews/aturan/constants/warna_apps.dart';
 import 'package:simplynews/screen/tracking/emission_calculator.dart';
+import 'package:get/get.dart';
 
 class TrackingPage extends StatefulWidget {
   @override
@@ -13,11 +14,29 @@ class TrackingPage extends StatefulWidget {
 class _TrackingPageState extends State<TrackingPage> {
   late GoogleMapController mapController;
   Position? currentPosition;
+  int selectedImageIndex = -1;
+  late StreamSubscription<Position> positionStreamSubscription;
 
   @override
   void initState() {
     super.initState();
     _getCurrentPosition();
+
+    positionStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      if (mapController != null) {
+        mapController.animateCamera(
+          CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Mematikan langganan pada saat widget di dispose
+    positionStreamSubscription.cancel();
+    super.dispose();
   }
 
   Future<void> _getCurrentPosition() async {
@@ -27,9 +46,21 @@ class _TrackingPageState extends State<TrackingPage> {
         currentPosition = position;
       });
     } catch (error) {
-      // Handle any errors that might occur during location retrieval
       debugPrint(error.toString());
     }
+  }
+
+  // Fungsi untuk menangani pemilihan gambar
+  void _onImageSelected(int index) {
+    setState(() {
+      // Jika gambar sudah dipilih, batalkan pemilihan
+      if (selectedImageIndex == index) {
+        selectedImageIndex = -1;
+      } else {
+        // Jika gambar belum dipilih, pilih gambar dengan mengubah nilai selectedImageIndex
+        selectedImageIndex = index;
+      }
+    });
   }
 
   @override
@@ -43,18 +74,20 @@ class _TrackingPageState extends State<TrackingPage> {
             },
             initialCameraPosition: currentPosition != null
                 ? CameraPosition(
-                    target: LatLng(currentPosition!.latitude, currentPosition!.longitude),
-                    zoom: 15,
+                    target: LatLng(
+                        currentPosition!.latitude, currentPosition!.longitude),
+                    zoom: 13,
                   )
-                : const CameraPosition(target: LatLng(0, 0), zoom: 1),
+                : const CameraPosition(target: LatLng(0, 0), zoom: 13),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
           ),
           Positioned(
-            top: 100, // Adjust as needed
-            bottom: 50, // Adjust as needed
-            left: 20, // Adjust as needed
-            right: 20, // Adjust as needed
+            bottom: 50,
+            left: 20,
+            right: 20,
             child: Container(
-              padding: const EdgeInsets.all(20), // Add padding around the content
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -79,71 +112,108 @@ class _TrackingPageState extends State<TrackingPage> {
                   SizedBox(height: 10),
                   Text(
                     "You are able to switch the transportation later. Please choose what you are going to use right now.",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListTile(
-                            leading: Image.asset("assets/images/train.png"), 
-                            title: Text("Train"),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.grey[200],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  _buildSelectableImage(
+                                    index: 0,
+                                    imagePath: "assets/images/train.png",
+                                    title: "Train",
+                                  ),
+                                  SizedBox(width: 10),
+                                  _buildSelectableImage(
+                                    index: 1,
+                                    imagePath: "assets/images/motor.png",
+                                    title: "Motorcycle",
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  _buildSelectableImage(
+                                    index: 2,
+                                    imagePath: "assets/images/car.png",
+                                    title: "Car",
+                                  ),
+                                  SizedBox(width: 10),
+                                  _buildSelectableImage(
+                                    index: 3,
+                                    imagePath: "assets/images/bus.png",
+                                    title: "Bus",
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: ListTile(
-                            leading: Image.asset("assets/images/motor.png"),
-                            title: Text("Motorcycle"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListTile(
-                            leading: Image.asset("assets/images/car.png"),
-                            title: Text("Car"),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            leading: Image.asset("assets/images/bus.png"),
-                            title: Text("Bus"),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(
-                          onPressed: (
-                            ) {
+                        ElevatedButton(
+                          onPressed: () {
+                            positionStreamSubscription.cancel();
                             Navigator.pop(context);
                           },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0), // Sesuaikan sesuai kebutuhan
+                            ),
+                          ),
                           child: Text(
                             "Cancel",
                             style: TextStyle(
-                              color: Colors.red,
+                              color: AppColors.primaryColor,
                               fontSize: 16,
                             ),
                           ),
                         ),
-                        TextButton(
+                        ElevatedButton(
                           onPressed: () {
-                          Get.to(EmissionCalculator());
+                            // Mengirim parameter ke halaman EmissionCalculator
+                            if (selectedImageIndex != -1) {
+                              Get.to(
+                                EmissionCalculator(
+                                  selectedTransportation:
+                                      _getSelectedTransportation(),
+                                ),
+                              );
+                            }
                           },
+                          style: ElevatedButton.styleFrom(
+                            primary: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0), // Sesuaikan sesuai kebutuhan
+                            ),
+                          ),
                           child: Text(
                             "Confirm",
                             style: TextStyle(
-                              color: Colors.green,
+                              color: Colors.white,
                               fontSize: 16,
                             ),
                           ),
@@ -158,5 +228,62 @@ class _TrackingPageState extends State<TrackingPage> {
         ],
       ),
     );
+  }
+
+  // Fungsi untuk membuat widget gambar yang dapat dipilih
+  Widget _buildSelectableImage({
+    required int index,
+    required String imagePath,
+    required String title,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _onImageSelected(index),
+        child: Container(
+          decoration: BoxDecoration(
+            color: selectedImageIndex == index
+                ? Colors.white // Warna yang berbeda untuk gambar yang dipilih
+                : AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                imagePath, width: 40, // Atur lebar gambar
+                height: 40,
+              ),
+              SizedBox(height: 5),
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: selectedImageIndex == index
+                      ? AppColors
+                          .primaryColor // Warna yang berbeda untuk gambar yang dipilih
+                      : Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Fungsi untuk mendapatkan informasi transportasi yang dipilih
+  String _getSelectedTransportation() {
+    switch (selectedImageIndex) {
+      case 0:
+        return "Train";
+      case 1:
+        return "Motorcycle";
+      case 2:
+        return "Car";
+      case 3:
+        return "Bus";
+      default:
+        return "";
+    }
   }
 }

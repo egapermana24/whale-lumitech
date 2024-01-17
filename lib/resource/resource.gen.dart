@@ -31,9 +31,9 @@ class $ResourcesIconGen {
   ResourceGenImage get icSelectedUser =>
       const ResourceGenImage('assets/icons/ic_selected_user.png');
 
-  /// File path: assets/icons/ic_selected_car.png
-  ResourceGenImage get icSelectedCar =>
-      const ResourceGenImage('assets/icons/ic_selected_car.png');
+  /// File path: assets/icons/ic_selected_history.png
+  ResourceGenImage get icSelectedHistory =>
+      const ResourceGenImage('assets/icons/ic_selected_history.png');
 
   /// File path: assets/icons/ic_selected_achive.png
   ResourceGenImage get icSelectedAchive =>
@@ -64,9 +64,9 @@ class $ResourcesIconGen {
   ResourceGenImage get icUnselectedUser =>
       const ResourceGenImage('assets/icons/ic_unselected_user.png');
 
-  /// File path: assets/icons/ic_unselected_car.png
-  ResourceGenImage get icUnselectedCar =>
-      const ResourceGenImage('assets/icons/ic_unselected_car.png');
+  /// File path: assets/icons/ic_unselected_history.png
+  ResourceGenImage get icUnselectedHistory =>
+      const ResourceGenImage('assets/icons/ic_unselected_history.png');
 
   /// File path: assets/icons/ic_unselected_achive.png
   ResourceGenImage get icUnselectedAchive =>
@@ -89,7 +89,7 @@ class $ResourcesIconGen {
         icSelectedHome,
         icSelectedSearchNormal,
         icSelectedUser,
-        icSelectedCar,
+        icSelectedHistory,
         icSelectedAchive,
         icSelectedCharging,
         icSetting5,
@@ -97,7 +97,7 @@ class $ResourcesIconGen {
         icUnselectedHome,
         icUnselectedSearchNormal,
         icUnselectedUser,
-        icUnselectedCar,
+        icUnselectedHistory,
         icUnselectedAchive,
         icUnselectedCharging,
         icVuesaxLinearSend

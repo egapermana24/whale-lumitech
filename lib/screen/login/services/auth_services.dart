@@ -13,10 +13,8 @@ class AuthService {
           await GoogleSignIn(scopes: ['email'])
               .signIn();
 
-      GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-      String userName = googleSignInAccount?.displayName ?? 'Guest';
-
-      HomeHeaderWidget();
+      // GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+      // String userName = googleSignInAccount?.displayName ?? 'Guest';
 
       // Check if the sign-in process was canceled
       if (googleUser == null) {
@@ -39,6 +37,10 @@ class AuthService {
       // Once signed in, return the UserCredential
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
+
+      HomeHeaderWidget(
+        user: userCredential.user,
+      );
 
       // Navigasi ke halaman MainTabBar setelah login berhasil
       Navigator.pushReplacement(

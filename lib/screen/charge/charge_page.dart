@@ -1,132 +1,3 @@
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:geolocator/geolocator.dart';
-// import 'package:simplynews/aturan/constants/warna_apps.dart';
-
-// class ChargingStation extends StatefulWidget {
-//   @override
-//   _ChargingStationState createState() => _ChargingStationState();
-// }
-
-// class _ChargingStationState extends State<ChargingStation> {
-//   late GoogleMapController mapController;
-//   Position? currentPosition;
-//   List<Position>? positionHistory = [];
-
-//   bool isLoading = true;
-//   Timer? locationRefreshTimer;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _getCurrentPosition();
-//   }
-
-//   Future<void> _getCurrentPosition() async {
-//     try {
-//       final position = await Geolocator.getCurrentPosition();
-//       setState(() {
-//         currentPosition = position;
-//         positionHistory!.add(position);
-//         isLoading = false;
-//       });
-
-//       if (mapController != null) {
-//         mapController.animateCamera(
-//           CameraUpdate.newCameraPosition(
-//             CameraPosition(
-//               target: LatLng(position.latitude, position.longitude),
-//               zoom: 15,
-//             ),
-//           ),
-//         );
-//       }
-
-//       _startLocationRefresh();
-//     } catch (error) {
-//       // Handle any errors that might occur during location retrieval
-//       debugPrint(error.toString());
-//     }
-//   }
-
-//   void _startLocationRefresh() {
-//     locationRefreshTimer = Timer.periodic(
-//       const Duration(seconds: 10), // Refresh every 10 seconds
-//       (timer) async {
-//         if (!isLoading) {
-//           await _getCurrentPosition();
-//         }
-//       },
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     locationRefreshTimer?.cancel();
-//     mapController?.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Stack(
-//         children: [
-//           GoogleMap(
-//             onMapCreated: (GoogleMapController controller) {
-//               mapController = controller;
-//             },
-//             initialCameraPosition: currentPosition != null
-//                 ? CameraPosition(
-//                     target: LatLng(
-//                         currentPosition!.latitude, currentPosition!.longitude),
-//                     zoom: 15,
-//                   )
-//                 : const CameraPosition(target: LatLng(0, 0), zoom: 1),
-//             markers: {
-//               if (currentPosition != null)
-//                 Marker(
-//                   markerId: const MarkerId('current_position'),
-//                   position: LatLng(
-//                       currentPosition!.latitude, currentPosition!.longitude),
-//                 ),
-//             },
-//           ),
-//           if (isLoading)
-//             Positioned(
-//               top: 0,
-//               left: 0,
-//               right: 0,
-//               bottom: 0,
-//               child: Center(
-//                 child: CircularProgressIndicator(
-//                   color: AppColors.primaryColor,
-//                 ),
-//               ),
-//             ),
-//           Positioned(
-//             top: 0,
-//             left: 0,
-//             right: 0,
-//             height: 50,
-//             child: TextField(
-//               decoration: InputDecoration(
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(10),
-//                 ),
-//                 filled: true,
-//                 fillColor: Colors.white,
-//                 hintText: 'Search',
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -135,34 +6,37 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 import 'package:simplynews/screen/charge/consts.dart';
 
+// const String GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
 
 class ChargingStation extends StatefulWidget {
-  const ChargingStation({super.key});
+  const ChargingStation({Key? key}) : super(key: key);
 
   @override
   State<ChargingStation> createState() => _ChargingStationState();
 }
 
 class _ChargingStationState extends State<ChargingStation> {
-  Location _locationController = new Location();
+  Location _locationController = Location();
 
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
 
   static const LatLng _pGooglePlex = LatLng(37.4223, -122.0848);
   static const LatLng _pApplePark = LatLng(37.3346, -122.0090);
-  LatLng? _currentP = null;
+  LatLng? _currentP;
 
   Map<PolylineId, Polyline> polylines = {};
+
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     getLocationUpdates().then(
-      (_) => {
-        getPolylinePoints().then((coordinates) => {
-              generatePolyLineFromPoints(coordinates),
-            }),
+      (_) {
+        getPolylinePoints().then((coordinates) {
+          generatePolyLineFromPoints(coordinates);
+        });
       },
     );
   }
@@ -170,34 +44,64 @@ class _ChargingStationState extends State<ChargingStation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentP == null
-          ? const Center(
-              child: Text("Loading..."),
-            )
-          : GoogleMap(
-              onMapCreated: ((GoogleMapController controller) =>
-                  _mapController.complete(controller)),
-              initialCameraPosition: CameraPosition(
-                target: _pGooglePlex,
-                zoom: 13,
-              ),
-              markers: {
-                Marker(
-                  markerId: MarkerId("_currentLocation"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _currentP!,
-                ),
-                Marker(
-                    markerId: MarkerId("_sourceLocation"),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _pGooglePlex),
-                Marker(
-                    markerId: MarkerId("_destionationLocation"),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _pApplePark)
-              },
-              polylines: Set<Polyline>.of(polylines.values),
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: ((GoogleMapController controller) =>
+                _mapController.complete(controller)),
+            initialCameraPosition: CameraPosition(
+              target: _pGooglePlex,
+              zoom: 13,
             ),
+            markers: {
+              Marker(
+                markerId: MarkerId("_currentLocation"),
+                icon: BitmapDescriptor.defaultMarker,
+                position: _currentP ?? _pGooglePlex,
+              ),
+              // Marker(
+              //     markerId: MarkerId("_sourceLocation"),
+              //     icon: BitmapDescriptor.defaultMarker,
+              //     position: _pGooglePlex),
+              // Marker(
+              //     markerId: MarkerId("_destionationLocation"),
+              //     icon: BitmapDescriptor.defaultMarker,
+              //     position: _pApplePark)
+            },
+            polylines: Set<Polyline>.of(polylines.values),
+          ),
+          Positioned(
+            top: 50,
+            left: 20,
+            right: 20,
+            child: Container(
+              // padding: EdgeInsets.all(8),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search Charging Station',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    // buat agar container rounded
+                    borderSide: BorderSide.none,
+                    // buat agar border tidak muncul
+                  ),
+                ),
+                onChanged: (value) {
+                  // Handle search functionality here
+                  // You can filter the charging stations based on the search input
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -217,10 +121,8 @@ class _ChargingStationState extends State<ChargingStation> {
     PermissionStatus _permissionGranted;
 
     _serviceEnabled = await _locationController.serviceEnabled();
-    if (_serviceEnabled) {
+    if (!_serviceEnabled) {
       _serviceEnabled = await _locationController.requestService();
-    } else {
-      return;
     }
 
     _permissionGranted = await _locationController.hasPermission();
@@ -275,4 +177,3 @@ class _ChargingStationState extends State<ChargingStation> {
     });
   }
 }
-
