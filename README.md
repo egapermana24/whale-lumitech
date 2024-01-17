@@ -14,6 +14,7 @@ after that
 flutter run
 ```
 
+## DOWNLOAD APPS IN <a href="app_release/">HERE</a>
 
 
 # LUMITECH
