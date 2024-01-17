@@ -1,3 +1,15 @@
+# Getting Started
+
+Type in the terminal at this project location (depending on where you save it after downloading):
+
+flutter pub get
+
+after that
+
+flutter run
+
+
+
 # LUMITECH
 
 <img src="screenshoot/team.png"></img>
@@ -16,16 +28,3 @@ Leveraging smartphone features such as sensors and
 notifications, Whale delivers an interactive experience that
 facilitates carbon emission monitoring, travel cost estimation,
 and practical selection of sustainable transportation options.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
