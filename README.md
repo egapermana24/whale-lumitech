@@ -1,12 +1,18 @@
 # Getting Started
 
+Our application currently only supports Android devices, so to run the code, please use an Android emulator or an Android device with debugging mode.
+
 Type in the terminal at this project location (depending on where you save it after downloading):
 
+```dart
 flutter pub get
+```
 
 after that
 
+```dart
 flutter run
+```
 
 
 
