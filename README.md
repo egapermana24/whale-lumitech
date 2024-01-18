@@ -21,10 +21,7 @@ flutter run
 
 # LUMITECH
 
-Kode GDSC : 
-Nama :
-Peran :
-Prestasi (Opsional) :
+### Kode GDSC : HF24- 50
 
 
 <img src="screenshoot/team.png"></img>
