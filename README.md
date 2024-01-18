@@ -1,6 +1,6 @@
+## DOWNLOAD APPS IN <a href="app_release/">HERE</a>
 #### Because when debugging requires SHA-1 and SHA-256 on each local computer which is then placed in our application's Firebase, it's best to just download the ready-made application if you want to check.
 
-## DOWNLOAD APPS IN <a href="app_release/">HERE</a>
 
 # Getting Started
 
