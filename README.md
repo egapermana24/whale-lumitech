@@ -1,5 +1,5 @@
-# DOWNLOAD APPS IN <a href="app_release/">HERE</a>
-#### Because when debugging requires SHA-1 and SHA-256 on each local computer which is then placed in our application's Firebase, it's best to just <a href="app_release/">download the ready-made application</a> if you want to check.
+# DOWNLOAD APPS IN <a href="https://github.com/egapermana24/whale-lumitech/raw/main/app_release/whale.apk">HERE</a>
+#### Because when debugging requires SHA-1 and SHA-256 on each local computer which is then placed in our application's Firebase, it's best to just <a href="https://github.com/egapermana24/whale-lumitech/raw/main/app_release/whale.apk">download the ready-made application</a> if you want to check.
 
 
 # Getting Started with Code
