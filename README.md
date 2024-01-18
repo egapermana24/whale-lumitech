@@ -21,6 +21,12 @@ flutter run
 
 # LUMITECH
 
+Kode GDSC : 
+Nama :
+Peran :
+Prestasi (Opsional) :
+
+
 <img src="screenshoot/team.png"></img>
 
 
