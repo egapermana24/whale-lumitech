@@ -38,6 +38,6 @@ notifications, Whale delivers an interactive experience that
 facilitates carbon emission monitoring, travel cost estimation,
 and practical selection of sustainable transportation options.
 
-# UI for WHALE APPS
+# SCREENSHOOT APPS
 
 
