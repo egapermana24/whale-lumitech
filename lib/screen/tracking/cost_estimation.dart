@@ -4,9 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
 import 'package:simplynews/screen/tracking/detail_trip.dart';
-import 'package:simplynews/screen/tracking/detail_trip_train.dart';
-import 'package:simplynews/screen/tracking/emission_calculator.dart';
-import 'package:get/get.dart';
 
 class CostEstimation extends StatefulWidget {
   final String vehicleType;

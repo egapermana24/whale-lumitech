@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:simplynews/screen/achievement/your_progress.dart';
-import 'package:simplynews/screen/bookmarks/bookmarks_page.dart';
 import 'package:simplynews/screen/charge/charge_page.dart';
 import 'package:simplynews/screen/history/history_page.dart';
 import 'package:simplynews/screen/home/home_page.dart';
 import 'package:simplynews/screen/tracking/tracking_page.dart';
-import 'package:simplynews/screen/trending/search_page.dart';
 import 'package:simplynews/screen/profile/profile_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../resource/resource.gen.dart';
 import '../../aturan/constants/warna_apps.dart';
 import 'widgets/bottom_icon_widget.dart';
-import 'widgets/top_icon_widget.dart';
 
 class MainTabBar extends StatefulWidget {
   final int initialPageIndex;

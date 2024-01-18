@@ -1,19 +1,8 @@
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:get/get.dart';
-
-// import '../../../resource/resource.gen.dart';
-// import '../../../aturan/constants/warna_apps.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
-
 import '../../../aturan/pengaturan.dart';
-// import '../../page/page.dart';
-// import 'round_icon_button_widget.dart';
-// profile pag
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-// profil page
-// import 'package:simplynews/screen/profile/profile_user.dart';
 
 class HeaderRank extends StatelessWidget {
   final User? user;

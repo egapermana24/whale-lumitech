@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:simplynews/screen/splash/splash_screen.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
-import 'package:simplynews/screen/bookmarks/widgets/bookmark_binding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -28,7 +27,6 @@ class Whale extends StatelessWidget {
         primaryColor: AppColors.primaryColor,
       ),
       home: SplashScreen(),
-      initialBinding: BookmarksControllerBinding(),
     );
   }
 }

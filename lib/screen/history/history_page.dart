@@ -2,45 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-// import 'package:get/get.dart';
-// import 'package:simplynews/screen/details/details_page.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
-import 'package:simplynews/screen/achievement/challenges.dart';
 import 'package:simplynews/screen/history/header_history.dart';
-import 'package:simplynews/screen/navbar/navbar.dart';
 import 'package:simplynews/screen/tracking/detail_trip.dart';
-import 'package:simplynews/screen/tracking/detail_trip_train.dart';
-// import 'package:simplynews/screen/home/widgets/card_view_widget.dart';
 import 'package:simplynews/widgets/spacer/kustom_spasi.dart';
-// google sign in
-// import 'package:google_sign_in/google_sign_in.dart';
-
 import '../../aturan/pengaturan.dart';
-// import '../../model/news_model.dart';
-// import '../../resource/resource.gen.dart';
-// import 'widgets/grid_view_widget.dart'; // Ganti import CardViewWidget menjadi GridViewWidget
-// import 'widgets/horizontal_category_list.dart';
-// import 'widgets/round_icon_button_widget.dart';
-// import 'widgets/top_slider_widget.dart';
-// resource
-// import '../../resource/resource.gen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HistoryPage extends StatelessWidget {
   HistoryPage({super.key}) {
-    // googleSignInAccount = GoogleSignIn().currentUser;
-    // userName = googleSignInAccount?.displayName ?? 'Guest';
-    // final User? user;
-    // ambil nama dan foto dari akun google
-    // final User? user = FirebaseAuth.instance.currentUser;
-    // userName = user?.displayName ?? 'Guest';
-    // userFoto = user?.photoURL ?? '';
+
   }
 
-  // GoogleSignInAccount? googleSignInAccount;
-  // String? userName;
-  // String? userFoto;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

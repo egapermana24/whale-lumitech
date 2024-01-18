@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'services/auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

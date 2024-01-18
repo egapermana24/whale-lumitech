@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:simplynews/screen/tracking/cost_estimation.dart';
 import 'splash_next1.dart';
 import 'package:simplynews/screen/navbar/navbar.dart';
 

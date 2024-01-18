@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplynews/aturan/pengaturan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// MainTabBar
-import 'package:simplynews/screen/navbar/navbar.dart';
 
 class HeaderHistory extends StatelessWidget {
   final String sambutan = 'Hello';
