@@ -1,6 +1,6 @@
 # DOWNLOAD APPS IN <a href="https://github.com/egapermana24/whale-lumitech/raw/main/app_release/whale.apk">HERE</a>
-<p style="color:red;">*apps in folder app_release/</p>
-#### Because when debugging requires SHA-1 and SHA-256 on each local computer which is then placed in our application's Firebase, it's best to just <a href="https://github.com/egapermana24/whale-lumitech/raw/main/app_release/whale.apk">download the ready-made application</a> if you want to check.
+### Because when debugging requires SHA-1 and SHA-256 on each local computer which is then placed in our application's Firebase, it's best to just <a href="https://github.com/egapermana24/whale-lumitech/raw/main/app_release/whale.apk">download the ready-made application</a> if you want to check.
+**apps in folder app_release*
 
 
 # Getting Started with Code
