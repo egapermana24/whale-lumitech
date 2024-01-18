@@ -26,21 +26,31 @@ class BottomIconWidget extends StatelessWidget {
 
   Widget _buildFloatingButton() {
     return Container(
-      // bottom: 20,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 4,
+            spreadRadius: 2,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: ClipOval(
         child: Material(
-          elevation: 10.0, // Sesuaikan dengan kebutuhan Anda
+          elevation: 10.0,
           color: AppColors.primaryColor,
-          shadowColor:
-              Colors.black, // Sesuaikan dengan warna bayangan yang diinginkan
-          child: InkWell(
+          shadowColor: Colors.black,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: tap,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Image.asset(
                 'assets/icons/ic_selected_achive.png',
-                width: 30,
-                height: 30,
+                width: 25,
+                height: 25,
                 color: Colors.white,
               ),
             ),
@@ -52,18 +62,18 @@ class BottomIconWidget extends StatelessWidget {
 
   Widget _buildNormalButton() {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: tap,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               child: Image.asset(
                 iconName,
-                width: 16,
-                height: 16,
+                width: 20,
+                height: 20,
                 color: iconColor,
               ),
             ),

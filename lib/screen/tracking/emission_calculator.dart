@@ -372,7 +372,9 @@ class _EmissionCalculatorState extends State<EmissionCalculator> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CostEstimation(),
+                                builder: (context) => CostEstimation(
+                                  vehicleType: widget.selectedTransportation,
+                                ),
                               ),
                             );
                             // kirimkan datanya ke Firebase

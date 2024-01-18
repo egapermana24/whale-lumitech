@@ -24,15 +24,11 @@ import '../../aturan/pengaturan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DetailTripPage extends StatelessWidget {
-  DetailTripPage({super.key}) {
-    // googleSignInAccount = GoogleSignIn().currentUser;
-    // userName = googleSignInAccount?.displayName ?? 'Guest';
-    // final User? user;
-    // ambil nama dan foto dari akun google
-    // final User? user = FirebaseAuth.instance.currentUser;
-    // userName = user?.displayName ?? 'Guest';
-    // userFoto = user?.photoURL ?? '';
-  }
+  final String vehicleType;
+  const DetailTripPage({
+    Key? key,
+    required this.vehicleType,
+  }) : super(key: key);
 
   // GoogleSignInAccount? googleSignInAccount;
   // String? userName;
@@ -46,11 +42,17 @@ class DetailTripPage extends StatelessWidget {
           body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               if (constraints.maxWidth <= 600) {
-                return DetailTripPageState.initialize();
+                return DetailTripPageState.initialize(
+                  vehicleType: vehicleType,
+                );
               } else if (constraints.maxWidth <= 1200) {
-                return DetailTripPageState.initialize();
+                return DetailTripPageState.initialize(
+                  vehicleType: vehicleType,
+                );
               } else {
-                return DetailTripPageState.initialize();
+                return DetailTripPageState.initialize(
+                  vehicleType: vehicleType,
+                );
               }
             },
           ),
@@ -61,12 +63,16 @@ class DetailTripPage extends StatelessWidget {
 }
 
 class DetailTripPageState extends StatelessWidget {
-  DetailTripPageState({super.key});
+  DetailTripPageState({
+    Key? key,
+    required this.vehicleType,
+  }) : super(key: key);
   late User? user;
+  final String vehicleType;
   // late String userName;
   // late String userFoto;
 
-  DetailTripPageState.initialize({super.key}) {
+  DetailTripPageState.initialize({Key? key, required this.vehicleType}) {
     initializeUser();
   }
 
@@ -175,7 +181,7 @@ class DetailTripPageState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '57.22 km - 12 minutes',
+                          '3.90 km - 10 minutes',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 12,
@@ -203,14 +209,14 @@ class DetailTripPageState extends StatelessWidget {
                       children: [
                         // Image on the left
                         Image.asset(
-                          'assets/images/bus.png',
+                          _getVehicleImage(),
                           width: 40,
                           height: 40,
                         ),
                         const CustomWidthSpacer(size: 0.03),
                         // Column for text content on the right
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -223,7 +229,7 @@ class DetailTripPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Asrama IPB Ekasari',
+                                      'Halte Bis Padjajaran',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -260,7 +266,7 @@ class DetailTripPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Sekolah Vokasi IPB',
+                                      'Stasiun Kota Bogor',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -270,7 +276,7 @@ class DetailTripPageState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '10.35 AM',
+                                      '10.33 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -344,7 +350,7 @@ class DetailTripPageState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Using Bus',
+                          'Using Car',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 14,
@@ -419,7 +425,7 @@ class DetailTripPageState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '19.45',
+                                        '10.30',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -512,7 +518,7 @@ class DetailTripPageState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '10.30',
+                                        '19.45',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -606,7 +612,7 @@ class DetailTripPageState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '112K',
+                                        '2K',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -699,7 +705,7 @@ class DetailTripPageState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '82K',
+                                        '12K',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -820,5 +826,22 @@ class DetailTripPageState extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getVehicleImage() {
+    // Logic untuk menentukan path gambar kendaraan berdasarkan variabel
+    // (Anda dapat menggunakan switch, if, atau metode lainnya sesuai kebutuhan)
+    switch (vehicleType) {
+      case "Car":
+        return 'assets/images/car.png';
+      case "Bus":
+        return 'assets/images/bus.png';
+      case "Motorcycle":
+        return 'assets/images/motor.png';
+      case "Train":
+        return 'assets/images/train.png';
+      default:
+        return 'assets/images/default.png';
+    }
   }
 }

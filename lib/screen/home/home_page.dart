@@ -614,7 +614,9 @@ class HomePageState extends StatelessWidget {
                 // Navigasi ke halaman DetailTripPage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                  MaterialPageRoute(builder: (context) => DetailTripPage(
+                     vehicleType: 'Car',
+                  )),
                 );
               },
               child: Container(
@@ -695,7 +697,9 @@ class HomePageState extends StatelessWidget {
                 // Navigasi ke halaman DetailTripPage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                  MaterialPageRoute(builder: (context) => DetailTripPage(
+                    vehicleType: 'Train',
+                  )),
                 );
               },
               child: Container(
@@ -776,7 +780,9 @@ class HomePageState extends StatelessWidget {
                 // Navigasi ke halaman DetailTripPage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DetailTripPage()),
+                  MaterialPageRoute(builder: (context) => DetailTripPage(
+                    vehicleType: 'Motorcycle',
+                  )),
                 );
               },
               child: Container(

@@ -175,7 +175,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '62.3 km - 40 minutes',
+                          '26.00 km - 15 minutes',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 12,
@@ -223,7 +223,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mangga Besar',
+                                      'Stasiun Kota Bogor',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -233,7 +233,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '10.23 AM',
+                                      '10.35 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -260,7 +260,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Bojong Gede',
+                                      'Stasiun Bojong Gede',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -270,7 +270,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '11.03 AM',
+                                      '10.50 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -344,7 +344,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Using Bus',
+                          'Using Car',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 14,
@@ -419,7 +419,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '19.45',
+                                        '17.45',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -512,7 +512,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '10.30',
+                                        '54.30',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -606,7 +606,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '112K',
+                                        '10K',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',
@@ -699,7 +699,7 @@ class DetailTripPageTrainState extends StatelessWidget {
                                         width: 5,
                                       ),
                                       Text(
-                                        '82K',
+                                        '25K',
                                         textAlign: TextAlign.center,
                                         style: SafeGoogleFont(
                                           'Mulish',

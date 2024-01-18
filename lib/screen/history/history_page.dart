@@ -292,7 +292,7 @@ class HistoryPageState extends StatelessWidget {
                       children: [
                         // buatkan 2 text kanan kiri spacebeetween
                         Text(
-                          'Today, 12 Jan 2024',
+                          'Today, 17 Jan 2024',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 12,
@@ -302,7 +302,7 @@ class HistoryPageState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '7.22 km - 12 minutes',
+                          '3.90 km - 10 minutes',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 11,
@@ -341,7 +341,7 @@ class HistoryPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Asrama IPB Ekasari',
+                                      'Halte Bis Padjajaran',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -378,7 +378,7 @@ class HistoryPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Sekolah Vokasi IPB',
+                                      'Stasiun Kota Bogor',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -388,7 +388,7 @@ class HistoryPageState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '10.35 AM',
+                                      '10.33 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -417,7 +417,9 @@ class HistoryPageState extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailTripPage(),
+                                builder: (context) => DetailTripPage(
+                                  vehicleType: 'Bus',
+                                ),
                               ),
                             );
                           },
@@ -469,7 +471,7 @@ class HistoryPageState extends StatelessWidget {
                       children: [
                         // buatkan 2 text kanan kiri spacebeetween
                         Text(
-                          'Today, 12 Jan 2024',
+                          'Today, 17 Jan 2024',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 12,
@@ -479,7 +481,7 @@ class HistoryPageState extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '62.3 km - 40 minutes',
+                          '41.00 km - 75 minutes',
                           style: SafeGoogleFont(
                             'Mulish',
                             fontSize: 11,
@@ -518,7 +520,7 @@ class HistoryPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mangga Besar',
+                                      'Stasiun Kota Bogor',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -528,7 +530,7 @@ class HistoryPageState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '10.23 AM',
+                                      '10.35 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -555,7 +557,7 @@ class HistoryPageState extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Bojong Gede',
+                                      'Stasiun Bojong Gede',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 16,
@@ -565,7 +567,7 @@ class HistoryPageState extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '11.03 AM',
+                                      '10.50 AM',
                                       style: SafeGoogleFont(
                                         'Mulish',
                                         fontSize: 12,
@@ -594,7 +596,9 @@ class HistoryPageState extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailTripPageTrain(),
+                                builder: (context) => DetailTripPage(
+                                  vehicleType: 'Train',
+                                ),
                               ),
                             );
                           },

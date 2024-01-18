@@ -4,10 +4,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
 import 'package:simplynews/screen/tracking/detail_trip.dart';
+import 'package:simplynews/screen/tracking/detail_trip_train.dart';
 import 'package:simplynews/screen/tracking/emission_calculator.dart';
 import 'package:get/get.dart';
 
 class CostEstimation extends StatefulWidget {
+  final String vehicleType;
+
+  const CostEstimation({
+    Key? key,
+    required this.vehicleType,
+  }) : super(key: key);
+
   @override
   _CostEstimationState createState() => _CostEstimationState();
 }
@@ -181,7 +189,7 @@ class _CostEstimationState extends State<CostEstimation> {
                                             width: 1,
                                           ),
                                         ),
-                                        hintText: "52.000",
+                                        hintText: "7.500",
                                         hintStyle: TextStyle(
                                           color: Colors.black,
                                         ),
@@ -252,7 +260,10 @@ class _CostEstimationState extends State<CostEstimation> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DetailTripPage(),
+                                                    DetailTripPage(
+                                                  vehicleType:
+                                                      widget.vehicleType,
+                                                    ),
                                               ),
                                             );
                                           },

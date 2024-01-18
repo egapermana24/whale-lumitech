@@ -80,6 +80,10 @@ class $ResourcesIconGen {
   ResourceGenImage get icVuesaxLinearSend =>
       const ResourceGenImage('assets/icons/ic_vuesax-linear-send.png');
 
+  /// File path: assets/icons/ic_vuesax-linear-send.png
+  ResourceGenImage get transparant =>
+      const ResourceGenImage('assets/icons/transparant.png');
+
   /// List of all assets
   List<ResourceGenImage> get values => [
         icArchiveAdd,
@@ -100,7 +104,8 @@ class $ResourcesIconGen {
         icUnselectedHistory,
         icUnselectedAchive,
         icUnselectedCharging,
-        icVuesaxLinearSend
+        icVuesaxLinearSend,
+        transparant
       ];
 }
 

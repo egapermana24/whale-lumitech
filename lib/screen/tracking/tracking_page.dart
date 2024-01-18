@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
+import 'package:simplynews/screen/navbar/navbar.dart';
 import 'package:simplynews/screen/tracking/emission_calculator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:get/get.dart';
 
 class TrackingPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class _TrackingPageState extends State<TrackingPage> {
   @override
   void initState() {
     super.initState();
+    _checkLocationPermission();
     _getCurrentPosition();
 
     positionStreamSubscription =
@@ -39,9 +43,35 @@ class _TrackingPageState extends State<TrackingPage> {
     super.dispose();
   }
 
+  Future<void> _checkLocationPermission() async {
+    var status = await Permission.location.status;
+    if (status.isDenied || status.isRestricted) {
+      await Permission.location.request();
+    } else if (status.isDenied || status.isPermanentlyDenied) {
+      // Jika izin ditolak atau ditolak secara permanen, tampilkan dialog untuk membuka pengaturan aplikasi
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text('Location Permission Required'),
+          content: Text(
+              'Please enable location permission in the app settings to use this feature.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   Future<void> _getCurrentPosition() async {
+    Location location = Location();
+    LocationData? currentLocation;
     try {
       final position = await Geolocator.getCurrentPosition();
+      currentLocation = await location.getLocation();
       setState(() {
         currentPosition = position;
       });
@@ -174,7 +204,14 @@ class _TrackingPageState extends State<TrackingPage> {
                         ElevatedButton(
                           onPressed: () {
                             positionStreamSubscription.cancel();
-                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainTabBar(
+                                  initialPageIndex: 0,
+                                ),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.white,
