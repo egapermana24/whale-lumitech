@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:simplynews/aturan/constants/warna_apps.dart';
+import 'package:simplynews/screen/achievement/your_progress.dart';
 import 'package:simplynews/screen/navbar/navbar.dart';
 import 'package:simplynews/screen/tracking/detail_trip.dart';
 import 'package:simplynews/screen/tracking/tracking_page.dart';
@@ -356,9 +357,7 @@ class HomePageState extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MainTabBar(
-                          initialPageIndex: 2,
-                        ),
+                        builder: (context) => YourProgress(),
                       ),
                     );
                   },

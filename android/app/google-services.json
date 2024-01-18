@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "26985113436-7l5i6rs8auteesc6l4jfkld32g5kurg6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.simplynews",
+            "certificate_hash": "278453b67b8efd029fc82e32f66a32c4aa4a145f"
+          }
+        },
+        {
+          "client_id": "26985113436-jbn6an6fq5fmuqe6472k9d46p7j0hhpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.simplynews",
+            "certificate_hash": "6bb2afab1068d63e11d581a3eac7e898730a95c7"
+          }
+        },
+        {
+          "client_id": "26985113436-ttngca28jter2sceie7o1d90nel0iou9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.simplynews",
+            "certificate_hash": "edb626624684e335d4ec2043a1f8c6dd0c9181c6"
+          }
+        },
+        {
           "client_id": "26985113436-4srig0n0mf96c9ga3l32n2g06n72a5um.apps.googleusercontent.com",
           "client_type": 3
         }
